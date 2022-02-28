@@ -1,9 +1,9 @@
 export default function ProductByID({ aProduct }) {
   // Render post...
-  console.log(aProduct);
   return (
     <div>
-      <h1>Product-ID: {aProduct.id} </h1>
+      <h1>Product-ID: {aProduct[0]._id} </h1>
+      <h1>Name: {aProduct[0].title_short} </h1>
     </div>
   );
 }
