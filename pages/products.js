@@ -1,11 +1,21 @@
+import Link from 'next/link';
+import styles from '../styles/singles.module.css';
+import { getProducts } from '../lib/products';
+
 export default function Products({ products }) {
   return (
     <div>
       <h1>Essential Oils Collection</h1>
-      {products.map((product, index) => {
+      {products.map((product) => {
+        console.log('product map:' + product._id);
         return (
-          <div className="" key={index}>
-            <h2>{product.title_long}</h2>
+          <div key={product._id}>
+            <h2>
+              <Link href={`/products/${product._id}`}>
+                <a className={styles.button_feel}>{product.title_long}</a>
+              </Link>
+            </h2>
+
             <h3>Price:&nbsp;{product.price}</h3>
             <p>Origin:&nbsp;{product.origin}</p>
             <p>Odor:&nbsp;{product.odor}</p>
@@ -24,14 +34,8 @@ export default function Products({ products }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const product_data = await fetch('http://localhost:3000/api/products', {
-    method: 'GET',
-    headers: {
-      'content-Type': 'application/json',
-    },
-  });
-  const products = await product_data.json();
+export async function getStaticProps(context) {
+  const products = await getProducts();
   return {
     props: { products },
   };

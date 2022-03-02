@@ -1,27 +1,33 @@
-export default function ProductByID({ aProduct }) {
+import { getProducts, getOneProduct } from '../../lib/products';
+
+export default function ProductByID({ product }) {
   // Render post...
+  console.log('product to props:' + product);
+  const singleProducts = product[0];
+  console.log('singleProducts:' + singleProducts);
   return (
     <div>
-      <h1>Product-ID: {aProduct[0]._id} </h1>
-      <h1>Name: {aProduct[0].title_short} </h1>
+      <h1>Product Title: {singleProducts.title_short} </h1>
+      <h3>ID: {singleProducts.id} </h3>
     </div>
   );
 }
 
 export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '1' } }],
-    fallback: true, // false or 'blocking'
-  };
+  const products = await getProducts();
+  const paths = products.map((product) => ({
+    params: { id: product._id },
+  }));
+  //console.log(products);
+  console.log(paths);
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false };
 }
 
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  const data = await fetch(`http://localhost:3000/api/products/${params.id}`);
-  const aProduct = await data.json();
-
-  // Pass post data to the page via props
-  return { props: { aProduct } };
+export async function getStaticProps({ params: { id } }) {
+  const product = await getOneProduct(id);
+  console.log('getOneProduct in [id]:' + product);
+  // Pass data to the page via props
+  return { props: { product } };
 }
