@@ -1,32 +1,36 @@
 import Link from 'next/link';
 import styles from '../styles/singles.module.css';
-import { getProducts } from '../lib/products';
+import { getAll } from '../lib/products';
+import Image from 'next/image';
+import Nav from '../components/nav';
 
 export default function Products({ products }) {
   return (
     <div>
+      <Nav />
       <h1>Essential Oils Collection</h1>
       {products.map((product) => {
-        console.log('product map:' + product._id);
         return (
           <div key={product._id}>
-            <h2>
-              <Link href={`/products/${product._id}`}>
-                <a className={styles.button_feel}>{product.title_long}</a>
+            <Image
+              src={product.img_url_main}
+              alt="Tidal Essential oils products"
+              width={500}
+              height={500}
+            />
+            <h1 className={styles.button_feel}>
+              <Link
+                href={`/products/[id]]`}
+                as={`/products/${product.endpoint}`}
+              >
+                {product.title_long}
               </Link>
-            </h2>
+            </h1>
 
-            <h3>Price:&nbsp;{product.price}</h3>
-            <p>Origin:&nbsp;{product.origin}</p>
-            <p>Odor:&nbsp;{product.odor}</p>
-            <p>Description:&nbsp;{product.description}</p>
-            <p>Category:&nbsp;{product.category}</p>
-            <code>Scientific Name:&nbsp;{product.chemical}</code>
-            <br />
-            <code>Extraction Method:&nbsp;{product.extraction}</code>
-            <br />
-            <code>Ingredients:&nbsp;{product.ingredients}</code>
-            <h4>UPC:&nbsp;{product.UPC}</h4>
+            <h2>{product.tagline_1}</h2>
+            <h2>{product.tagline_2}</h2>
+
+            <button>MORE DETAILS</button>
           </div>
         );
       })}
@@ -35,7 +39,7 @@ export default function Products({ products }) {
 }
 
 export async function getStaticProps(context) {
-  const products = await getProducts();
+  const products = await getAll();
   return {
     props: { products },
   };
