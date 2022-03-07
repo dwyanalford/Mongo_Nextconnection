@@ -13,10 +13,10 @@ export default function Products({ products }) {
         return (
           <div key={product._id}>
             <Image
-              src={product.img_url_main}
+              src={product.image.md}
               alt="Tidal Essential oils products"
-              width={500}
-              height={500}
+              width={477}
+              height={449}
             />
             <h1 className={styles.button_feel}>
               <Link
@@ -29,8 +29,13 @@ export default function Products({ products }) {
 
             <h2>{product.tagline_1}</h2>
             <h2>{product.tagline_2}</h2>
-
-            <button>MORE DETAILS</button>
+            {/* <Link
+              className="btn-primary"
+              href={`/products/[id]]`}
+              as={`/products/${product.endpoint}`}
+            > */}
+            <a className="btn-primary">MORE DETAILS</a>
+            {/* </Link> */}
           </div>
         );
       })}

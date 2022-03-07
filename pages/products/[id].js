@@ -2,18 +2,19 @@ import { getAll } from '../../lib/products';
 // import { ObjectId } from 'mongodb';
 import clientPromise from '../../lib/mongodb';
 import Image from 'next/image';
+// import styles from '../../styles/singles.module.css';
 
 export default function ProductDetail({ product }) {
   // Render post...
   return (
-    <div>
+    <div style={{ backgroundColor: `${product.color}` }}>
       <h1>Product Title: {product.title_long} </h1>
       <h3>ID: {product._id} </h3>
       <Image
-        src={product.img_url_main}
+        src={product.image.lg}
         alt="Tidal Essential oils products"
-        width={750}
-        height={750}
+        width={716}
+        height={673}
       />
     </div>
   );
